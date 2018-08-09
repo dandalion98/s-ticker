@@ -57,7 +57,7 @@ function handleConnection(socket) {
             if (!assetMonitorMap[newTicker]) {
                 log.info("creating new monitor for: " + newTickers)
                 let monitor = new AssetPriceMonitor(newTicker, server)
-                monitor.onTradePriceChange = (ticker, price) => assetSubscriberMap.onTradePriceChange(ticker, price)
+                monitor.onTradePriceChange = (ticker, price, change) => assetSubscriberMap.onTradePriceChange(ticker, price, change)
                 monitor.onClosePriceChange = (ticker, price) => assetSubscriberMap.onClosePriceChange(ticker, price)
                 assetMonitorMap[newTicker] = monitor
                 monitor.start()                
@@ -78,7 +78,7 @@ function handleConnection(socket) {
             }
 
             if (monitor.lastTradePrice) {
-                socket.emit("priceChange", { type: "lastTrade", price: monitor.lastTradePrice, ticker: ticker });
+                socket.emit("priceChange", { type: "lastTrade", price: monitor.lastTradePrice, ticker: ticker, change: monitor.lastTradePriceChange});
             }
         }
 

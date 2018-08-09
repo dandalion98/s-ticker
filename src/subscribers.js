@@ -61,14 +61,14 @@ class AssetSubscriberMap {
         return removedTickers
     }
 
-    onTradePriceChange(ticker, price) {
+    onTradePriceChange(ticker, price, ch) {
         let subscribers = this.tickerSubscriberMap[ticker]
         if (!subscribers) {
             return
         }
 
         for (let s of subscribers) {
-            s.emit("priceChange", { type: "lastTrade", price: price, ticker: ticker });
+            s.emit("priceChange", { type: "lastTrade", price: price, ticker: ticker, change: ch});
         }
     }
 

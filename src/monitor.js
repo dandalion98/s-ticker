@@ -49,7 +49,13 @@ class AssetPriceMonitor {
             let price = latest.price.n / latest.price.d
             if (price != this.lastTradePrice) {
                 this.lastTradePrice = price
-                this.onTradePriceChange(this.ticker, this.lastTradePrice)
+
+                if (this.lastClosePrice) {
+                    this.lastTradePriceChange = (this.lastTradePrice - this.lastClosePrice) / this.lastClosePrice
+                    this.lastTradePriceChange = this.lastTradePriceChange.toFixed(2)
+                }
+
+                this.onTradePriceChange(this.ticker, this.lastTradePrice, this.lastTradePriceChange)
             }
         }
     }

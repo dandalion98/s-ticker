@@ -1,3 +1,5 @@
 module.exports = {
-    port: 3006
+    stellarServer: "https://horizon.stellar.org",
+    port: 3006,
+    pollIntervalSeconds: 30
 }

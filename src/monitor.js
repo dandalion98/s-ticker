@@ -4,15 +4,22 @@ var _ = require('lodash'),
     StellarSdk = require('stellar-sdk');
 
 class AssetPriceMonitor {
-    constructor(ticker, stellarServer) {
+    constructor(ticker, stellarServer, config) {
         this.ticker = ticker
         this.stellarServer = stellarServer
+        this.config = config || this.getDefaultConfig()
 
         let temp = ticker.split("-")
         this.code = temp[0]
         this.issuer = temp[1]
         this.asset = new StellarSdk.Asset(this.code, this.issuer)
         this.lastCloseDate = moment().startOf("day")
+    }
+
+    getDefaultConfig() {
+        return {
+            pollIntervalSeconds: 30
+        }
     }
 
     async getLastClosePrice() {
@@ -93,7 +100,7 @@ class AssetPriceMonitor {
         let self = this
         this.timer = setTimeout(function () {
             self.check()
-        }, 30 * 1000)
+        }, self.config.pollIntervalSeconds * 1000)
     }
 
     stop() {

@@ -56,7 +56,7 @@ function handleConnection(socket) {
         for (let newTicker of newTickers) {
             if (!assetMonitorMap[newTicker]) {
                 log.info("creating new monitor for: " + newTickers)
-                let monitor = new AssetPriceMonitor(newTicker, server)
+                let monitor = new AssetPriceMonitor(newTicker, server, config)
                 monitor.onTradePriceChange = (ticker, price, change) => assetSubscriberMap.onTradePriceChange(ticker, price, change)
                 monitor.onClosePriceChange = (ticker, price) => assetSubscriberMap.onClosePriceChange(ticker, price)
                 assetMonitorMap[newTicker] = monitor
@@ -64,9 +64,9 @@ function handleConnection(socket) {
             }
         }
 
-        log.info("sending info")
+        // log.info("sending info")
         for (let ticker of msg.tickers) {
-            log.info('checking ' + ticker)
+            // log.info('checking ' + ticker)
             let monitor = assetMonitorMap[ticker]
             if (!monitor) {
                 log.error("Can't find monitor for ticker: " + ticker)

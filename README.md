@@ -1,4 +1,4 @@
-# stellar-ticker
+# s-ticker
 
 A pub sub service that publishes the last close price, latest trade price and price change for any set of Stellar assets. 
 
